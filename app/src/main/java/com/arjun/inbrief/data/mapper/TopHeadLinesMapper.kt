@@ -59,7 +59,7 @@ fun TopHeadLinesDto.Article.toEntity(category: String) : ArticleEntity {
         description = description,
         content = content,
         image = image,
-        source = (source?:"") as String?,
+        source = source?.name,
         publishedAt = publishedAt,
         lang = lang,
         category = category,

@@ -2,7 +2,7 @@ package com.arjun.inbrief.di
 
 import android.content.Context
 import androidx.room.Room
-import com.arjun.inbrief.data.local.DAO
+import com.arjun.inbrief.data.local.articleDAO
 import com.arjun.inbrief.data.local.Database
 import dagger.Module
 import dagger.Provides
@@ -28,6 +28,6 @@ object DatabaseModule {
         ).build()
 
     @Provides
-    fun providesArticleDao(db: Database): DAO = db.articleDAO()
+    fun providesArticleDao(db: Database): articleDAO = db.articleDAO()
 
 }

@@ -2,7 +2,6 @@ package com.arjun.inbrief
 
 import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -16,9 +15,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.arjun.inbrief.ui.UIState.SharedUiState
@@ -62,7 +59,6 @@ class MainActivity : ComponentActivity() {
                     topBar = {
                         AppTopBar(
                             title = if (currentRoute == NavItems.Article.route) "Article" else if (currentRoute == NavItems.ArticleCategoryScreen.route) selectCategoryTitle.value else selectedItemName,
-                            subTitle = if (currentRoute == NavItems.Home.route) "Stay informed. Even offline" else "",
                             showBackIcon = currentRoute == NavItems.Article.route || currentRoute == NavItems.ArticleCategoryScreen.route,
                             onClickBackIcon = { navController.popBackStack() }
                         )
