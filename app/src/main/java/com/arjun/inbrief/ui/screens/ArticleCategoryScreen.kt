@@ -44,6 +44,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.arjun.inbrief.ui.navigation.NavItems
 import com.arjun.inbrief.ui.utils.timeAgoFromISO
+import com.arjun.inbrief.ui.utils.toDate
 import com.arjun.inbrief.ui.viewModel.ArticleCategoryScreenViewModel
 import com.arjun.inbrief.ui.viewModel.HomeScreenViewModel
 
@@ -105,7 +106,7 @@ fun ArticleCategoryScreen(
                     }
 
                     else -> {
-                        news.value.data.forEach {
+                        news.value.data.sortedByDescending { toDate(it.publishedAt) }.forEach {
                             Log.d("TAG", it.title)
                             Card(
                                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),

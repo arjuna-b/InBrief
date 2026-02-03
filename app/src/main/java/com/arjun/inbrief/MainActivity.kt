@@ -75,8 +75,7 @@ class MainActivity : ComponentActivity() {
                                                     Home → Details → Profile → Home   ❌ - before clicking on home again
                                                     Home - after clicking on home (removes all other screens from backstack)
                                      */
-                                        saveState =
-                                            true // it saves ui state like scroll position, text field values, lazy list positions
+//                                        saveState = true // it saves ui state like scroll position, text field values, lazy list positions
                                     }
                                     launchSingleTop = true //launch mode.
                                     restoreState =

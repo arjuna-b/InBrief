@@ -2,6 +2,7 @@ package com.arjun.inbrief.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -21,7 +22,7 @@ import com.arjun.inbrief.ui.navigation.NavItems
 fun AppBottomBar(items: List<NavItems>, currentRoute: String?, onItemClick: (NavItems) -> Unit) {
     NavigationBar(
         containerColor = MaterialTheme.colorScheme.background,
-        modifier = Modifier.height(64.dp),
+        modifier = Modifier.wrapContentHeight(),
 
 //        modifier = Modifier.background(MaterialTheme.colorScheme.background)
     ) {
@@ -34,7 +35,8 @@ fun AppBottomBar(items: List<NavItems>, currentRoute: String?, onItemClick: (Nav
                 colors = NavigationBarItemDefaults.colors(
                     selectedIconColor = MaterialTheme.colorScheme.primary,
                     selectedTextColor = MaterialTheme.colorScheme.primary,
-                    indicatorColor = Color.Transparent
+                    indicatorColor = Color.Unspecified,
+
                 )
             )
         }

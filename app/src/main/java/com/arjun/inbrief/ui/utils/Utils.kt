@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.Date
 import kotlin.time.Duration
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -24,4 +25,10 @@ fun timeAgoFromISO(ISOTime: String): String{
                 minutes > 0 -> "$minutes ago"
                 else -> "Just now"
             }
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun toDate(ISO:String): LocalDateTime {
+    val formatter = DateTimeFormatter.ISO_DATE_TIME
+    return LocalDateTime.parse(ISO,formatter)
 }

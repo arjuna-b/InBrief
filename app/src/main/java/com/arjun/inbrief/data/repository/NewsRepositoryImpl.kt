@@ -1,11 +1,17 @@
 package com.arjun.inbrief.data.repository
 
+import android.util.Log
+import com.arjun.inbrief.data.local.ArticleEntity
 import com.arjun.inbrief.data.local.articleDAO
 import com.arjun.inbrief.data.mapper.toDomain
 import com.arjun.inbrief.data.mapper.toEntity
 import com.arjun.inbrief.data.remote.datasource.NewsDataSource
 import com.arjun.inbrief.domain.model.TopHeadLinesModel
 import com.arjun.inbrief.domain.repository.NewsRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 
@@ -28,29 +34,48 @@ class NewsRepositoryImpl @Inject constructor(
 ) : NewsRepository {
 
     override suspend fun getTopHeadLines(category: String): TopHeadLinesModel {
-
         val cache = dao.getAllArticles()
 
-        if (cache.isNotEmpty()){
-            return TopHeadLinesModel(
+        return try {
+            val remote = dataSource.getHeadLines(category = category)
+
+            val entities =
+                remote.articles?.mapNotNull { dto -> dto?.toEntity(category) } ?: emptyList()
+            if (entities.isNotEmpty()){
+            dao.loadArticles(entities)
+            }
+
+            Log.e("RepoImpl - network", cache.size.toString())
+
+
+            TopHeadLinesModel(
+                articles = cache.map { it.toDomain() },
+                totalArticles = cache.size,
+                information = "from internet"
+            )
+
+
+        } catch (E: Exception) {
+//            val cache = dao.getAllArticles()
+            Log.e("RepoImpl - cache", cache.size.toString())
+
+            TopHeadLinesModel(
                 articles = cache.map { it.toDomain() },
                 totalArticles = cache.size,
                 information = "from cache"
             )
+
+
         }
 
+//        if (cache.isNotEmpty()){
 
-
-        val remote = dataSource.getHeadLines(category = category)
-        val entities = remote.articles?.mapNotNull { dto -> dto?.toEntity(category) } ?: emptyList()
-
-        dao.loadArticles(entities)
-
-        return TopHeadLinesModel(
-            articles = entities.map { it.toDomain() },
-            information = remote.information?.realTimeArticles?.message.orEmpty(),
-            totalArticles = remote.totalArticles ?: 0
-        )
+//        }
+//        return TopHeadLinesModel(
+//            articles = entities.map { it.toDomain() },
+//            information = remote.information?.realTimeArticles?.message.orEmpty(),
+//            totalArticles = remote.totalArticles ?: 0
+//        )
 //        dao.loadArticles()
 //
 //        return remote.toDomain()
@@ -61,5 +86,19 @@ class NewsRepositoryImpl @Inject constructor(
     override suspend fun getSearchResult(input: String): TopHeadLinesModel {
         val dto = dataSource.getSearchResults(input)
         return dto.toDomain()
+    }
+
+    override fun getSavedArticles(): Flow<List<TopHeadLinesModel.Article>> {
+        val dao = dao.getSavedArticles()
+        return dao.map { list -> list.map { it.toDomain() } }
+    }
+
+    override suspend fun saveArticle(url: String) {
+        dao.saveArticle(url)
+
+    }
+
+    override suspend fun deleteArticle(url: String) {
+        dao.deleteArticle(url)
     }
 }

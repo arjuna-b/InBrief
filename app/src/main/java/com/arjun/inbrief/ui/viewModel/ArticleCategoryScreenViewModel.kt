@@ -4,13 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arjun.inbrief.data.repository.NewsRepositoryImpl
 import com.arjun.inbrief.ui.UIState.ArticleCategoryUiState
-import com.arjun.inbrief.ui.UIState.HomeScreenUiState
 import com.arjun.inbrief.ui.UIState.SharedUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

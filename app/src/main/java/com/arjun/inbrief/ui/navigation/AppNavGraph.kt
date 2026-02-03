@@ -29,7 +29,7 @@ import com.arjun.inbrief.ui.viewModel.ArticleViewModel
 fun AppNavGraph(navController: NavHostController,paddingValues: PaddingValues) {
     NavHost(
         navController = navController,
-        startDestination = NavItems.Search.route,
+        startDestination = NavItems.Home.route,
         modifier = Modifier.padding(paddingValues)
     ){
 

@@ -62,6 +62,7 @@ import com.arjun.inbrief.ui.navigation.NavItems
 import com.arjun.inbrief.ui.utils.timeAgoFromISO
 import com.arjun.inbrief.ui.viewModel.HomeScreenViewModel
 import com.arjun.inbrief.ui.viewModel.SearchViewModel
+import kotlinx.coroutines.coroutineScope
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -71,23 +72,23 @@ fun SearchScreen(
     homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
-    var searchInput by remember { mutableStateOf("") }
     val searchResult = viewModel.result.collectAsState().value
     val focusManager = LocalFocusManager.current
 
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
         Column(modifier = Modifier.padding(16.dp)) {
             OutlinedTextField(
-                value = searchInput,
+                value = viewModel.searchInput.value,
                 onValueChange = { newValue ->
-                    searchInput = newValue
+                    viewModel.searchInput.value = newValue
+                    viewModel.onTextChanged()
                 },
                 maxLines = 1,
                 trailingIcon = {
-                    if (searchInput.isNotEmpty()) {
+                    if (viewModel.searchInput.value.isNotEmpty()) {
                         IconButton(
                             onClick = {
-                                searchInput = ""
+                                viewModel.searchInput.value = ""
                                 focusManager.clearFocus()
 //                                Toast.makeText(context, "Cleared", Toast.LENGTH_SHORT).show()
                             }
@@ -100,7 +101,7 @@ fun SearchScreen(
                 keyboardActions = KeyboardActions(onSearch = {
 //                    Toast.makeText(context, viewModel.searchInput.value, Toast.LENGTH_SHORT).show()
                     focusManager.clearFocus()
-                    viewModel.onTextChanged(searchInput)
+                    viewModel.onTextChanged()
                 }),
                 placeholder = { Text("Search Anything...") },
                 shape = RoundedCornerShape(50),
@@ -144,7 +145,7 @@ fun SearchScreen(
                 ) {
                     item {
                         when {
-                            searchInput.isEmpty() -> {
+                            viewModel.searchInput.value.isEmpty() -> {
 
                                 Image(
                                     painter = painterResource(R.drawable.search),
@@ -164,7 +165,7 @@ fun SearchScreen(
                                 )
                             }
 
-                            searchInput.length < 4 -> {
+                            viewModel.searchInput.value.length < 4 -> {
                                 Image(
                                     painter = painterResource(R.drawable.search),
                                     contentDescription = null,

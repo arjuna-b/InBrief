@@ -22,10 +22,10 @@ class SearchViewModel @Inject constructor(
     private val _result = MutableStateFlow(SearchScreenUiState())
     val result: StateFlow<SearchScreenUiState> = _result
 
-    fun onTextChanged(Input: String){
-        if (Input.length > 4){
+    fun onTextChanged(){
+        if (searchInput.value.length > 4){
             viewModelScope.launch {
-                getSearchResults(Input)
+                getSearchResults(searchInput.value)
             }
         }
 
