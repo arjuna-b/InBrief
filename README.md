@@ -29,9 +29,9 @@ A modern Android news application built with **Kotlin** and **Jetpack Compose**,
 |------|------|
 | <img src="screenshots/search.jpg" width="250"/> | <img src="screenshots/saved.jpg" width="250"/> |
 
-| Article Details | Dark Theme |
-|------|------|
-| <img src="screenshots/details.jpg" width="250"/> | <img src="screenshots/dark.jpg" width="250"/> |
+| Article Details |
+|------|
+| <img src="screenshots/details.jpg" width="250"/> |
 
 ---
 
