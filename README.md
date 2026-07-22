@@ -1,2 +1,0 @@
-# InBrief
-News Application

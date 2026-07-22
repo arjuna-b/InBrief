@@ -2,17 +2,18 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt)
+//    alias(libs.plugins.compose.compiler)
     kotlin("kapt")
 }
 
 
 
 android {
-    namespace = "com.arjun.inbrief"
+    namespace = "com.arjuna.inbrief"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.arjun.inbrief"
+        applicationId = "com.arjuna.inbrief"
         minSdk = 24
         targetSdk = 35
 
@@ -73,7 +74,7 @@ dependencies {
 
     //room
     implementation (libs.androidx.room.runtime)
-    kapt ("androidx.room:room-compiler:2.8.4")
+    kapt ("androidx.room:room-compiler:2.6.1")
 
     // Room + Coroutines
     implementation (libs.androidx.room.ktx)
