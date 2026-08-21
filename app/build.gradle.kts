@@ -17,7 +17,7 @@ android {
         minSdk = 24
         targetSdk = 35
 
-        buildConfigField("String", "API_KEY", "\"17b1ebe130471e6b5cf746462b50dcf8\"")
+        buildConfigField("String", "API_KEY", "\"KEEP_YOUR_APIKEY_HERE\"")
 
         versionCode = 1
         versionName = "1.0"
