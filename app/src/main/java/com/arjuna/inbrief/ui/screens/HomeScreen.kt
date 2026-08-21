@@ -85,6 +85,8 @@ fun HomeScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
             .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
 
         ) {
         Row(
@@ -104,7 +106,9 @@ fun HomeScreen(
         Spacer(Modifier.height(16.dp))
 
         PullToRefreshBox(
+            modifier = Modifier.weight(1f),
             isRefreshing = isRefreshingByPullDown,
+            contentAlignment = Alignment.TopCenter,
             state= pullToRefreshState,
             onRefresh = {
                 coroutineScope.launch {
@@ -113,7 +117,7 @@ fun HomeScreen(
             },
             indicator = {
                 Indicator(
-                    modifier = Modifier.align(Alignment.TopCenter),
+                    modifier = Modifier.align(alignment = Alignment.TopCenter),
                     state = pullToRefreshState,
                     isRefreshing = isRefreshingByPullDown,
                     containerColor = MaterialTheme.colorScheme.background,
@@ -124,9 +128,7 @@ fun HomeScreen(
 
                     when {
                         state.value.isLoading -> {
-                            CircularProgressIndicator(
-                                color = MaterialTheme.colorScheme.primary,
-                            )
+                            isRefreshingByPullDown = true
                         }
 
                         state.value.error != null -> {

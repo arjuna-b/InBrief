@@ -37,6 +37,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -57,6 +58,7 @@ import com.arjuna.inbrief.ui.navigation.NavItems
 import com.arjuna.inbrief.ui.utils.timeAgoFromISO
 import com.arjuna.inbrief.ui.viewModel.HomeScreenViewModel
 import com.arjuna.inbrief.ui.viewModel.SearchViewModel
+import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -68,6 +70,7 @@ fun SearchScreen(
     val context = LocalContext.current
     val searchResult = viewModel.result.collectAsState().value
     val focusManager = LocalFocusManager.current
+    val scope = rememberCoroutineScope()
 
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -75,7 +78,7 @@ fun SearchScreen(
                 value = viewModel.searchInput.value,
                 onValueChange = { newValue ->
                     viewModel.searchInput.value = newValue
-                    viewModel.onTextChanged()
+//                    viewModel.onTextChanged()
                 },
                 maxLines = 1,
                 trailingIcon = {
@@ -95,7 +98,10 @@ fun SearchScreen(
                 keyboardActions = KeyboardActions(onSearch = {
 //                    Toast.makeText(context, viewModel.searchInput.value, Toast.LENGTH_SHORT).show()
                     focusManager.clearFocus()
-                    viewModel.onTextChanged()
+                    scope.launch {
+                    viewModel.getSearchResults(viewModel.searchInput.value)
+                    }
+//                    viewModel.onTextChanged()
                 }),
                 placeholder = { Text("Search Anything...") },
                 shape = RoundedCornerShape(50),
@@ -172,7 +178,7 @@ fun SearchScreen(
                                         fontSize = 14.sp,
                                         lineHeight = 14.sp,
                                         fontWeight = FontWeight.W300,
-                                        textAlign = TextAlign.Left,
+                                        textAlign = TextAlign.Center,
                                         color = MaterialTheme.colorScheme.onBackground
                                     )
                                 )
